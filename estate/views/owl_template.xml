@@ -1,0 +1,11 @@
+<odoo>
+    <template id="playground" name="Awesome T-Shirt thank you">
+        <html>
+            <head>
+                <t t-call-assets="estate.assets_backend"/>
+            </head>
+            <body>
+            </body>
+        </html>
+    </template>
+</odoo>

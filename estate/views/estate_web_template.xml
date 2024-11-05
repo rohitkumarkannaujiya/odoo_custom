@@ -1,0 +1,179 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="home_template" name="Home Page">
+        <t t-call="website.layout">
+            <t t-set="title">Academy</t>
+            <div class="oe_structure">
+                <div class="container">
+                    <t t-foreach="teachers" t-as="teacher">
+                        <p>
+                            <t t-out="teacher.id" />
+                            <a t-attf-href='/home/{{teacher.id}}'>
+                                <t t-out="teacher.name" />
+                            </a>
+                        </p>
+                    </t>
+                </div>
+            </div>
+        </t>
+    </template>
+
+    <template id="teacher_template" name="Teacher Page">
+        <t t-call="website.layout">
+            <t t-set="title">Teacher Profile</t>
+            <div class="oe_structure">
+                <div class="container">
+                    <h1 class='text-center'>Teacher Profile</h1>
+                    <div class="m-2">
+                        <span t-field="teacher_data.name" />
+                    </div>
+                </div>
+            </div>
+        </t>
+    </template>
+
+    <template id="property_template" name="Property Page">
+        <t t-call="website.layout">
+            <t t-set="title">Properties</t>
+            <div class="oe_structure">
+                <style>
+                    .card-img-top {
+                    width: 100%;
+                    height: 15vw;
+                    object-fit: cover;
+                    }
+                </style>
+                <div class="container">
+                    <div class=" w-full justify-content-center mt-3">
+                        <t t-call="website.pager"></t>
+                    </div>
+
+                    <div class="row my-4">
+                        <t t-foreach="property_data" t-as="property">
+                            <div class="col-4 my-4">
+                                <div class="card">
+                                    <img t-attf-src="data:image/jpeg;base64,{{property.image}}"
+                                        class="card-img-top" alt="..." />
+                                    <div class="card-body">
+                                        <h5 class="card-title">
+                                            <t t-out="property.name" />
+                                        </h5>
+                                        <p class="card-text "><t t-out="property.description[:50] + '...' if  property.description else ''" /></p>
+                                        <a t-attf-href='/property/{{property.id}}'
+                                            class="btn btn-primary">Detail</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </t>
+                    </div>
+                </div>
+            </div>
+        </t>
+    </template>
+
+    <template id="property_profile_template" name="Property Profile Page">
+        <t t-call="website.layout">
+            <t t-set="title">
+                <t t-out="property_profile.name" />
+            </t>
+            <div class="oe_structure">
+                <div class="container">
+                    <div class="row my-3">
+                        <div class='col-12'>
+                            <div class="h1 text-center text-muted">
+                                <t t-out="property_profile.name" />
+                            </div>
+                            <t t-foreach="property_profile.tag_ids" t-as="tag">
+                                <span class="badge alert-warning mt-2">
+                                    <t t-out="tag.name" />
+                                </span>
+                            </t>
+                        </div>
+                        <div class="col-8">
+                            <img
+                                t-attf-src="data:image/jpeg;base64,{{property_profile.image}}"
+                                class="card-img-top rounded" alt="..." />
+                        </div>
+                        <div class="col-4 shadow p-3 mb-5 bg-white rounded">
+                            <div
+                                class='h3'>Property Details</div>
+                            <div class="row">
+                                <div class="col-6">Property Type : </div>
+                                <div class="col-6">
+                                    <t t-out="property_profile.property_type_id.name" />
+                                </div>
+                                <div class="col-6">Available from : </div>
+                                <div class="col-6">
+                                    <t t-out="property_profile.date_availability" />
+                                </div>
+                                <div class="col-6">Total Area : </div>
+                                <div class="col-6">
+                                    <t t-out="property_profile.total_area" />
+                                </div>
+                                <t t-if="property_profile.garden">
+                                    <div class="col-6">Garden Area: </div>
+                                    <div class="col-6">
+                                        <t t-out="garden_area" />
+                                    </div>
+                                    <div class="col-6">Garden Orientation: </div>
+                                    <div class="col-6">
+                                        <t t-out="garden_orientation" />
+                                    </div>
+                                    <div class="col-6">Living Area : </div>
+                                    <div class="col-6">
+                                        <t t-out="property_profile.living_area" />
+                                    </div>
+                                </t>
+                                <t t-else="">
+                                    <div class="col-6">Has Garden : </div>
+                                    <div class="col-6">
+                                        No
+                                    </div>
+                                </t>
+                                <div class="col-6">Has Garage : </div>
+                                <div class="col-6">
+                                    <t t-if="property_profile.garage">
+                                        Yes
+                                    </t>
+                                    <t t-else="">
+                                        No
+                                    </t>
+                                </div>
+                            </div>
+
+                            <div class="row mt-3 font-weight-bold">
+                                <div class="col-6">Expected Price : </div>
+                                <div class="col-6">
+                                    <t t-out="property_profile.expected_price" />
+                                </div>
+                                <div class="col-6">Best offer : </div>
+                                <div class="col-6">
+                                    <t t-out="property_profile.best_price" />
+                                </div>
+                                <div class="col-6">No. of offers : </div>
+                                <div class="col-6">
+                                    <t t-out="len(property_profile.offer_ids)" />
+                                </div>
+                            </div>
+
+                            <button type="button" class="btn mt-2 btn-primary btn-lg btn-block">PLace
+                                offer</button>
+                            <button type="button"
+                                class="btn mt-2 btn-secondary btn-lg btn-block">Contact Salesman</button>
+                        </div>
+                    </div>
+
+                    <div class="row my-3">
+                        <div class="col-8">
+                            <div class="text-muted">
+                                <t t-out="property_profile.description" />
+                            </div>
+                        </div>
+                    </div>
+
+
+                </div>
+            </div>
+        </t>
+    </template>
+</odoo>

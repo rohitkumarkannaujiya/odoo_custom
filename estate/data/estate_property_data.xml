@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+  <!-- demo records for property model -->
+  <data noupdate="1">
+    <record id="estate_property_id345" model="estate.property">
+      <field name="name">Big Villa</field>
+      <field name="state">new</field>
+      <field name="description">A nice and big villa</field>
+      <field name="postcode">12345</field>
+      <field name="date_availability">2020-02-02</field>
+      <field name="expected_price">1600000</field>
+      <field name="bedrooms">6</field>
+      <field name="living_area">100</field>
+      <field name="facades">4</field>
+      <field name="garage">1</field>
+      <field name="garden">1</field>
+      <field name="garden_area">100000</field>
+      <field name="garden_orientation">s</field>
+    </record>
+    <record id="estate_property_id234" model="estate.property">
+      <field name="name">Trailer home</field>
+      <field name="state">cancelled</field>
+      <field name="description">Home in a trailer park</field>
+      <field name="postcode">54321</field>
+      <field name="date_availability">1970-01-01</field>
+      <field name="expected_price">100000</field>
+      <field name="selling_price">120000</field>
+      <field name="bedrooms">1</field>
+      <field name="living_area">10</field>
+      <field name="facades">4</field>
+      <field name="garage">0</field>
+    </record>
+    
+    <!-- demo property record, but it has  on2many fileds directly linked to them -->
+    <record id="estate_property_id235" model="estate.property">
+      <field name="name">Trailer home 2</field>
+      <field name="state">new</field>
+      <field name="postcode">543210</field>
+      <field name="date_availability">1990-01-01</field>
+      <field name="expected_price">120000</field>
+      <field name="bedrooms">2</field>
+      <field name="living_area">100</field>
+      <!-- a list of 'create' commands which will create and link the offer to the property. -->
+      <field name='offer_ids' 
+      eval= "[
+      Command.create({ 'price':115000 , 'validity':23 , 'partner_id' : ref('base.res_partner_12')}),
+      Command.create({ 'price':145000 , 'partner_id' : ref('base.res_partner_12'),
+      'date_deadline' : datetime.today().date() }),
+      Command.create({ 'price':165000 , 'validity':33 , 'partner_id' : ref('base.res_partner_2')})]" />
+    </record>
+  
+  </data>
+</odoo>

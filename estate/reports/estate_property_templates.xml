@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="property_offer_table" name="offer.table">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Price</th>
+                    <th>Partner</th>
+                    <th>Validity</th>
+                    <th>Deadline</th>
+                    <th>State</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr t-foreach="offers" t-as="offer"
+                    t-attf-class="{{ 'table-success' if offer.status == 'accepted' else '' }}">
+                    <td>
+                        <span t-field="offer.price" />
+                    </td>
+                    <td>
+                        <span t-field="offer.partner_id" />
+                    </td>
+                    <td>
+                        <span t-field="offer.validity" />
+                    </td>
+                    <td>
+                        <span t-field="offer.date_deadline" />
+                    </td>
+                    <td>
+                        <span>
+                            <t t-out="offer.status" />
+                        </span>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </template>
+
+    <template id="property_report" name="property_report">
+        <div class="row ms-1">
+            <div class='col-lg-9 col-sm-6'>
+                <div class="h2">
+                    <t t-out="property.name" />
+                </div>
+                <div>
+                    <strong>Expected Price: </strong>
+                    <span t-field="property.expected_price" />
+                </div>
+                <div>
+                    <strong>Status: </strong>
+                    <span t-field="property.state" />
+                </div>
+                <div>
+                    <t t-if="len(property.offer_ids) == 0">
+                        <strong>Currently this Property has no offers !!!</strong>
+                    </t>
+                </div>
+            </div>
+            <div class="col-lg-3 col-sm-6">
+                <img t-attf-src="data:image/jpeg;base64,{{property.image}}" />
+            </div>
+        </div>
+
+        <t t-if="len(property.offer_ids) > 0">
+            <div class="container">
+                <t t-call="estate.property_offer_table">
+                    <t t-set="offers" t-value="property.mapped('offer_ids')" />
+                </t>
+            </div>
+
+        </t>
+    </template>
+
+    <template id="report_property_offers">
+        <t t-foreach="docs" t-as="property">
+            <t t-call="web.html_container">
+                <t t-call="web.external_layout">
+                    <div class="page">
+                        <div id="salesman">
+                            <span class="h1 font-weight-bold">SalesMan : </span>
+                            <span class="h1">
+                                <t t-out="property.salesperson_id.name" />
+                            </span>
+                        </div>
+
+                        <t t-call="estate.property_report" />
+                    </div>
+                </t>
+            </t>
+        </t>
+    </template>
+
+    <template id="user_property_offer_report">
+        <t t-foreach="docs" t-as="user">
+            <t t-call="web.html_container">
+                <t t-call="web.external_layout">
+                    <div class="page">
+                        <span class="h1 font-weight-bold">SalesMan : </span>
+                        <span class="h1">
+                            <t t-out="user.name" />
+                        </span>
+                        <t t-foreach="user.property_ids" t-as="property">
+                            <t t-call="estate.property_report" />
+                            <hr />
+                        </t>
+                    </div>
+                </t>
+            </t>
+        </t>
+    </template>
+
+</odoo>

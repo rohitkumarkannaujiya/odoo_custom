@@ -1,0 +1,163 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates xml:space="preserve">
+
+    <t t-name='header' owl='1'>
+        <div class="row">
+            <div class="col-2">
+                <t t-slot='left-header' />
+            </div>
+            <div class="col text-center">
+                <t t-slot='title' />
+            </div>
+            <div class="col-2">
+                <t t-slot='right-header' />
+            </div>
+        </div>
+    </t>
+
+    <t t-name='todo' owl='1'>
+        <span t-att-class="{'text-muted text-decoration-line-through' : props.todo.done ,'d-inline-block text-truncate':true}" style="max-width:200px; " t-out="props.todo.name" />
+    </t>
+    <t t-name='todoapp' owl='1'>
+        <div class="card" style ='max-width : 20rem'>
+            <div class="row mt-1">
+                <div class="col-10"> 
+                    <input type="text" class="form-control" placeholder="Enter Todo"
+                        t-model='state.name' t-on-keyup='addTodo' />
+                </div>
+                <div class="col-1 mt-2">
+                    <i class='fa fa-plus float-end rounded' role='button'
+                                t-on-click='addTodo'  />
+                </div>
+            </div>
+            <div class="form-group my-2">
+            </div>
+
+
+            <t t-foreach="state.list" t-as="task" t-key='task.id'>
+                <table class="table">
+                    <tr>
+                        <td> <input t-if="!task.done" class="form-check-input border border-dark" type="checkbox"
+                                role='button' t-on-change='() => this.completeTodo(task_index)' /></td>
+                        <td>
+                            <Todo2 todo='task' />
+                        </td>
+                        <td> <i class='fa fa-trash alert-danger float-end rounded m-1 p-1' role='button'
+                                t-on-click='()=> this.removeTodo(todo_index)' /></td>
+                    </tr>
+                </table>
+            </t>
+        </div>
+    </t>
+
+    <t t-name="todotable" owl="1">
+        <div class="form-group my-2">
+            <div class="row">
+                <div class="col-5 offset-6">
+                    <input type="text" placeholder="Search" class='form-control' t-on-input='search' />
+                </div>
+            </div>
+        </div>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Title</th>
+                    <th scope="col text-center">Mark Complete</th>
+                    <th scope="col text-center">Edit</th>
+                    <th scope="col text-center">Delete</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr t-foreach="props.list" t-as="todo" t-key='todo.id'
+                    t-att-class="{'alert-success' : todo.isCompleted}">
+                    <th scope="row" t-out="todo_index+1" />
+                    <td t-att-class="{'text-muted text-decoration-line-through' : todo.isCompleted}"
+                        t-out="todo.name" />
+                    <td>
+                        <input t-if="!todo.isCompleted" class="form-check-input border border-dark" type="checkbox"
+                            role='button' t-on-change='() => this.complete(todo_index)' />
+                        <i t-else="" class='fa fa-check mt-2' />
+                    </td>
+                    <td>
+                        <i t-if="!todo.isCompleted" class='fa fa-edit bg-warning rounded m-1 p-1' role='button'
+                            t-on-click='()=> this.update(todo_index)' />
+                    </td>
+                    <td>
+                        <i class='fa fa-trash alert-danger rounded m-1 p-1' role='button'
+                            t-on-click='()=> this.remove(todo_index)' />
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </t>
+
+    <t t-name="playground" owl="1">
+        <div class="container p-2">
+            <Header>
+                <t t-set-slot='left-header'>
+                    owl framework
+                </t>
+                <t t-set-slot='title'>
+                    Learning Todo App
+                </t>
+                <t t-set-slot='right-header'>
+                    <t t-out="date" />
+                </t>
+            </Header>
+            <div class="alert alert-danger h2 text-center">
+                Todo by owl
+            </div>
+            <div class="row">
+                <div class="col-3">
+                    <div class="alert alert-primary">
+                        <t t-if="edit.mode">
+                            Edit Todo
+                        </t>
+                        <t t-else="">
+                            Create TODO
+                        </t>
+                    </div>
+                    <form>
+                        <div class="form-group my-2">
+                            <input type="text" class="form-control" id="todo" placeholder="Enter Todo"
+                                t-model='state.name' />
+                        </div>
+                        <button type="button" class="btn btn-primary" t-on-click='addTodo'>
+                            <t t-if="edit.mode">
+                                Update
+                            </t>
+                            <t t-else="">
+                                Create
+                            </t>
+                        </button>
+                    </form>
+                </div>
+                <div class="col-8 offset-1">
+                    <div class="alert alert-secondary text-center">
+                        LIST TODO
+                    </div>
+                    <TodoTable list='state.list' onDelete.bind="removeTodo" completeTodo.bind='completeTodo'
+                        updateTodo.bind='editTodo' searchTodo.bind='searchTodo' />
+                </div>
+            </div>
+        </div>
+        <hr />
+        <div class="container mb-5">
+            <div class="float-left ml-5">
+                <button class="btn btn-primary" t-on-click='addTodolist'>
+                    Add New TodoList
+                </button>
+            </div>
+            <div class="row">
+                <t t-foreach="state.todolists" t-as="todolist" t-key='todolist_index'>
+                    <div class="col-3 mt-2">
+                        <t t-component="todolist" />
+                    </div>
+                </t>
+            </div>
+            
+        </div>
+    </t>
+
+</templates>
