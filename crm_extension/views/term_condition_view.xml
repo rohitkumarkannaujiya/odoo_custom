@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="term_products_tree" model="ir.ui.view">
+        <field name="name">term.products.tree</field>
+        <field name="model">term.product</field>
+        <field name="arch" type="xml">
+            <tree editable="bottom">
+                <field name="product_term" />
+
+            </tree>
+                 
+        </field>
+    </record>
+
+
+    <record id="term_products_action" model="ir.actions.act_window">
+        <field name="name">term products</field>
+        <field name="res_model">term.product</field>
+        <field name="binding_view_types">tree</field>
+        <field name="view_mode">tree</field>
+    </record>
+
+
+    <record id="term_services_tree" model="ir.ui.view">
+        <field name="name">term.services.tree</field>
+        <field name="model">term.services</field>
+        <field name="arch" type="xml">
+            <tree  editable="bottom">
+                <field name="services_term" />
+
+            </tree>
+        </field>
+    </record>
+
+
+    <record id="term_services_action" model="ir.actions.act_window">
+        <field name="name">term services</field>
+        <field name="res_model">term.services</field>
+        <field name="binding_view_types">tree</field>
+        <field name="view_mode">tree</field>
+    </record>
+
+
+    <record id="term_export_tree" model="ir.ui.view">
+        <field name="name">term.export.tree</field>
+        <field name="model">term.export</field>
+        <field name="arch" type="xml">
+           <tree  editable="bottom">
+            <field name="export_term" />
+           </tree>
+        </field>
+    </record>
+
+
+    <record id="term_export_action" model="ir.actions.act_window">
+        <field name="name">term export</field>
+        <field name="res_model">term.export</field>
+        <field name="binding_view_types">tree</field>
+        <field name="view_mode">tree</field>
+    </record>
+
+
+    <!-- menus for all views -->
+    <menuitem id="menu_term_and_condition"
+        name="Term and Conditions"
+        sequence="50"
+        parent="sale.menu_sale_config" />
+
+    <menuitem id="menu_term_products"
+        name="Products"
+        sequence="10"
+        parent="menu_term_and_condition"
+        action="term_products_action" />
+
+    <menuitem id="menu_term_services"
+        name="Services"
+        sequence="20"
+        parent="menu_term_and_condition"
+        action="term_services_action" />
+
+    <menuitem id="menu_term_export"
+        name="Export"
+        sequence="30"
+        parent="menu_term_and_condition"
+        action="term_export_action" />
+
+</odoo>
+
+ 

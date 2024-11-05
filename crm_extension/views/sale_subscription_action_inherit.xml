@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<odoo>
+    <record id="sale_subscription.sale_subscription_action" model="ir.actions.act_window"> 
+        <field name="context">{
+            'default_is_subs': True,
+            'default_subscription_state': '1_draft',
+            'search_default_progress': 1,
+            'search_default_paused': 1,
+        }
+        </field>
+        <field name="domain">[('is_subs', '=', True)]</field>
+
+    </record>
+   
+</odoo>    

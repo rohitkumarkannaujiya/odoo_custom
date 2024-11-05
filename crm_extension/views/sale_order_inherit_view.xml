@@ -1,0 +1,187 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <record id="sale_view_order_form_inherit" model="ir.ui.view">
+        <field name="name">sale.view.order.form.view.inherit</field>
+        <field name="model">sale.order</field>
+        <field name="inherit_id" ref="sale.view_order_form" />
+        <field name="arch" type="xml">
+            <xpath expr="//form" position="attributes">
+                <attribute name="create">0</attribute>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="sale_view_quotation_tree_inherit" model="ir.ui.view">
+        <field name="name">sale.view.quotation.tree.inherit</field>
+        <field name="model">sale.order</field>
+        <field name="inherit_id" ref="sale.view_quotation_tree" />
+        <field name="arch" type="xml">
+            <xpath expr="//tree" position="attributes">
+                <attribute name="create">0</attribute>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="sale_view_sale_order_kanban_inherit" model="ir.ui.view">
+        <field name="name">sale.view.order.kanban.inherit</field>
+        <field name="model">sale.order</field>
+        <field name="inherit_id" ref="sale.view_sale_order_kanban" />
+        <field name="arch" type="xml">
+            <xpath expr="//kanban" position="attributes">
+                <attribute name="create">0</attribute>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="sale_view_order_tree_inherit" model="ir.ui.view">
+        <field name="name">sale.view.order.tree.inherit</field>
+        <field name="model">sale.order</field>
+        <field name="inherit_id" ref="sale.view_order_tree" />
+        <field name="arch" type="xml">
+            <xpath expr="//tree" position="attributes">
+                <attribute name="create">0</attribute>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="sale_view_order_form_inherit2" model="ir.ui.view">
+        <field name="name">sale.view.order.form.view.inherit2</field>
+        <field name="model">sale.order</field>
+        <field name="inherit_id" ref="sale.view_order_form" />
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='payment_term_id']" position="after">
+                <field name="tracking_status" />
+                <field name="sales_type" required="1" />
+            </xpath>
+
+            <xpath expr="//header//field[@name='state']" position="replace">
+                <field name="state" widget="statusbar" />
+            </xpath>
+
+            <xpath
+                expr="//page[@name='order_lines']//group[@name='note_group']//group//field[@name='note']"
+                position="after">
+                <field name="deviation" />
+            </xpath>
+        </field>
+    </record>
+
+
+    <record id="product_pricelist_form_inherit" model="ir.ui.view">
+        <field name="name">product.pricelist.form.inherit</field>
+        <field name="model">product.pricelist</field>
+        <field name="inherit_id" ref="product.product_pricelist_view" />
+        <field name="arch" type="xml">
+            <xpath
+                expr="//page[@name='pricelist_rules']/field[@name='item_ids']/tree/field[@name='fixed_price']"
+                position="after">
+                <field name="selling_price" />
+            </xpath>
+        </field>
+    </record>
+
+    <record id="sale_view_order_form_button" model="ir.ui.view">
+        <field name="name">sale.view.order.form.view.button</field>
+        <field name="model">sale.order</field>
+        <field name="inherit_id" ref="sale.view_order_form" />
+        <field name="arch" type="xml">
+            <xpath expr="//header//button[@id='send_by_email']" position="after">
+                <button name="action_approval" string="Approve"  class="btn-primary" type="object"
+                   groups="sales_team.group_sale_manager"  invisible="state != 'approval'" />
+                <button name="action_reset_to_draft" data-hotkey="q" string="Reset to Quotation"
+                    type="object" invisible="state in ('draft','sale','cancel')" />
+                <button name="action_quatation_approval" data-hotkey="q"  class="btn-primary"
+                    string="Quotation for Approval" type="object" invisible="state != 'draft' " />
+
+            </xpath>
+
+            <xpath expr="//header//button[@id='send_by_email_primary']" position="attributes">
+                <attribute name="invisible">state in ('draft','approval')</attribute>
+            </xpath>
+
+            <xpath expr="//header//button[@id='send_proforma_primary']" position="attributes">
+                <attribute name="invisible">state in ('draft','approval') </attribute>
+            </xpath>
+
+            <xpath expr="//header//button[@id='send_by_email']" position="attributes">
+                <attribute name="invisible">True</attribute>
+            </xpath>
+
+            <xpath expr="//header//button[@id='send_proforma']" position="attributes">
+                <attribute name="invisible">True</attribute>
+            </xpath>
+
+            <xpath expr="//header//button[@name='action_confirm']" position="attributes">
+                <attribute name="invisible">state not in  ('approved','sent')</attribute>
+            </xpath>
+
+            <xpath expr="//header//button[@name='action_confirm'][2]" position="attributes">
+                <attribute name="invisible">True</attribute>
+            </xpath>
+            <xpath expr="//header//button[@name='action_cancel']" position="attributes">
+                <attribute name="invisible">state not in ['draft','approval','approved', 'sent', 'sale']</attribute>
+
+            </xpath>
+
+        </field>
+    </record>
+
+    <record id="product_category_form_view_1" model="ir.ui.view">
+        <field name="name">product.category.form.view_1</field>
+        <field name="model">product.category</field>
+        <field name="inherit_id" ref="product.product_category_form_view" />
+        <field name="arch" type="xml">
+            <xpath expr="//form" position="inside">
+                <div class="oe_chatter">
+                    <field name="message_follower_ids" />
+                    <field name="activity_ids" />
+                    <field name="message_ids" />
+                </div>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="mail_compose_message_form_inhrerit" model="ir.ui.view">
+        <field name="name">mail.compose.message.form_inherit</field>
+        <field name="model">mail.compose.message</field>
+        <field name="inherit_id" ref="mail.email_compose_message_wizard_form" />
+        <field name="arch" type="xml">
+            <xpath expr="//div//group//field[@name='attachment_ids']" position="after">
+                <field name="attachment_ids2" widget="many2many_binary" string="Attach a file2"
+                    nolabel="1" colspan="2" />
+            </xpath>
+        </field>
+    </record>
+
+    
+    <record id="email_template_sale_order" model="mail.template">
+        <field name="name">EMAIL TEMPLATE Sale Order</field>
+        <field name="model_id" ref="sale.model_sale_order"/>
+        <field name="subject">{{ object.company_id.name }}</field>
+        <field name="email_from">{{ (object.user_id.email) }}</field>
+        <field name="email_to">{{ object.partner_id.email }}</field>
+        <field name="description">Add Description</field>
+        <field name="body_html" type="html">
+            <div>
+                <p style="margin: 0px; padding: 0px; font-size: 12px;">
+                    Hello,
+                    <br/><br/>
+                    <t t-set="tx_sudo" t-value="object.get_portal_last_transaction()"/>
+                    Your order <span style="font-weight:bold;" t-out="object.name or ''">S00049</span> amounting in <span style="font-weight:bold;" t-out="format_amount(object.amount_total, object.currency_id) or ''">$ 10.00</span>
+                    <t t-if="object.state == 'sale' or (tx_sudo and tx_sudo.state in ('done', 'authorized'))">
+                        has been confirmed.<br/> 
+                        Thank you for your trust!
+                    </t>
+                    <br/><br/>
+                    Do not hesitate to contact us if you have any questions.
+                    <t t-if="not is_html_empty(object.user_id.signature)">
+                        <br/><br/>
+                        <t t-out="object.user_id.signature or ''">--<br/>Mitchell Admin</t>
+                    </t>
+                    <br/><br/>
+                </p>
+            </div>
+        </field>
+    </record>     
+
+</odoo>
